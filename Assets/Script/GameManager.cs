@@ -3,8 +3,11 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    public Player player;
+
     public UIManager UIManager;
+    public BattleManager BattleManager;
+
+    public Player player;
 
     private void Awake()
     {
