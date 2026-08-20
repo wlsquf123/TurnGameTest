@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    public Animator PlayerAnimator;
+
     public int Lv = 1;
 
     public float MaxExp = 100f;
@@ -45,13 +47,18 @@ public class Player : MonoBehaviour
     public Text evaText;
     public Text MoneyText;
 
-    [Header("턴")]
-    public int[] SkillTurn = new int[10];
+    [Header("장비")]
+    public Equipment 무기;
+    public Equipment 갑옷;
 
     private void Start()
     {
         Hp = MaxHp;
         Mp = MaxMp;
+
+        attack += 무기.AddAttack;
+        crit += 무기.AddCrit;
+        Def += 갑옷.AddDef;
     }
 
     private void Update()
@@ -73,25 +80,43 @@ public class Player : MonoBehaviour
 
         MoneyText.text = "돈: " + Money;
         TimerText.text = "타이머: " + Timer.ToString("F1");
+
+        if (Lv >= 10) return;
+        if (MaxExp <= Exp)
+        {
+            Exp -= MaxExp;
+            Lv++;
+            MaxExp += 100;
+            Hp += 20;
+            Mp += 10;
+            attack += 10;
+        }
+        if (Lv >= 2)
+        {
+            // 스킬
+        }
+        if (Lv >= 4)
+        {
+            // 스킬
+        }
+        if (Lv >= 6)
+        {
+            // 스킬
+        }
     }
 
     // 플레이어 피해
     public void Damage(float damage)
     {
-        if (IsDid)
-        {
-            return;
-        }
-
         // 회피
         int evaRandom = Random.Range(0, 100);
 
         if (evaRandom < eva)
         {
+            PlayerAnimator.Play("Eva");
             Debug.Log("플레이어 회피!");
             return;
         }
-
 
         // 방어력
         float damagePercent = 1f - (Def / 100f);
@@ -100,7 +125,7 @@ public class Player : MonoBehaviour
         damagePercent = Mathf.Max(damagePercent, 0.1f);
 
         damage *= damagePercent;
-
+        PlayerAnimator.Play("Damage");
 
         Hp -= damage;
 
@@ -110,6 +135,7 @@ public class Player : MonoBehaviour
             IsDid = true;
 
             Debug.Log("플레이어 사망");
+            PlayerAnimator.Play("Die", 0, 0f);
         }
     }
 
@@ -123,37 +149,8 @@ public class Player : MonoBehaviour
         return true;
     }
 
-    public void TurnDown()
+    public void SetExp(int add)
     {
-        for (int i = 0; i < SkillTurn.Length; i++)
-        {
-            if (SkillTurn[i] > 0)
-            {
-                SkillTurn[i]--;
-            }
-        }
-    }
-    public float GetCrit()
-    {
-        if (SkillTurn[0] > 0)
-        {
-            return crit + 25;
-        }
-
-        return crit;
-    }
-    public float GetDef()
-    {
-        float CurrentDef = Def;
-        if (SkillTurn[3] > 0)
-        {
-            CurrentDef *= 1.3f;
-        }
-        if (SkillTurn[7] > 0)
-        {
-            CurrentDef *= 1.3f;
-        }
-
-        return CurrentDef;
+        Exp += add;
     }
 }

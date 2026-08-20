@@ -4,14 +4,40 @@ public class 노려보기 : Skill
 {
     public override void Select()
     {
-        if (!player.SetMP(MpCost))
+
+        // 처음 적용될 때만 +25
+        if (Turn == 0)
         {
-            Debug.Log("MP가 부족합니다!");
-            return;
+            player.crit += 25;
         }
 
-        player.SkillTurn[0] = 4;
+        Turn = 4;
 
         GameManager.instance.BattleManager.EndPlayerTurn();
+    }
+
+
+    public override void TurnDown()
+    {
+        if (Turn > 0)
+        {
+            Turn--;
+
+            if (Turn == 0)
+            {
+                player.crit -= 25;
+            }
+        }
+    }
+
+
+    public override void ResetSkill()
+    {
+        if (Turn > 0)
+        {
+            player.crit -= 25;
+        }
+
+        Turn = 0;
     }
 }

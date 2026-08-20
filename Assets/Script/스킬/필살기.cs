@@ -4,24 +4,24 @@ public class 필살기 : Skill
 {
     public override void Select()
     {
-        if (player.SkillTurn[2] > 0)
+        if (Turn > 0)
         {
-            Debug.Log("필살기 쿨타임이 " + player.SkillTurn[2] + "턴 남았습니다");
+            Debug.Log("필살기 쿨타임이 " + Turn + "턴 남았습니다");
+
             return;
-        }
-        if (!player.SetMP(MpCost))
-        {
-            Debug.Log("MP가 부족합니다!");
-            return;
-        }
-        
-        foreach (var en in GameManager.instance.BattleManager.Enemys)
-        {
-            en.Damage(GetDamage(3f));
         }
 
-        Debug.Log("필살기 사용!");
-        player.SkillTurn[2] = 10;
+        foreach (Enemy enemy in GameManager.instance.BattleManager.Enemys)
+        {
+            if (enemy != null && !enemy.IsDie)
+            {
+                enemy.Damage(GetDamage(3f));
+            }
+        }
+
+        Turn = 10;
+
+        GameManager.instance.UIManager.BigMSG("필살기 사용!");
         GameManager.instance.BattleManager.EndPlayerTurn();
     }
 }

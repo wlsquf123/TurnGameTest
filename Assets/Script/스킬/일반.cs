@@ -8,6 +8,6 @@ public class 일반 : Skill
 
         enemy.Damage(damage);
 
-        Debug.Log("일반 공격!");
+        GameManager.instance.UIManager.BigMSG("일반 공격!");
     }
 }

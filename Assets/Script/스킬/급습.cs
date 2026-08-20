@@ -4,25 +4,30 @@ public class 급습 : Skill
 {
     public override void Select()
     {
-        if (player.SkillTurn[5] > 0)
+        if (Turn > 0)
         {
-            Debug.Log("급습 쿨타임이 " + player.SkillTurn[5] + "턴 남았습니다");
+            GameManager.instance.UIManager.SmallMSG("급습 쿨타임이 " + Turn + "턴 남았습니다");
+
             return;
         }
-        base.Select();
 
+        base.Select();
     }
+
     public override void Use(Enemy enemy)
     {
         if (enemy.IsDefing)
         {
             enemy.Damage(GetDamage(2.5f));
+
             enemy.IsDefing = false;
+            enemy.DefImage.gameObject.SetActive(false);
         }
         else
         {
             enemy.Damage(GetDamage(1.5f));
         }
-        player.SkillTurn[5] = 3;
+
+        Turn = 3;
     }
 }

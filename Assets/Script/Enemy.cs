@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public  class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     public string Name;
     public int EnemyLv;
@@ -9,7 +9,7 @@ public  class Enemy : MonoBehaviour
     public virtual float EnemyMaxHp { get; }
     public float EnemyHp;
     public virtual float EnemyAttack { get; }
-    public virtual float EnemyDef {  get; }
+    public virtual float EnemyDef { get; }
     public virtual float EnemySpeed { get; }
     public virtual int EnemyExp { get; }
 
@@ -18,8 +18,8 @@ public  class Enemy : MonoBehaviour
     public bool IsDefing = false;
     public bool IsDie = false;
 
-    [Header("상태 턴")]
-    public int[] SkillTurn = new int[5];
+    [Header("약점격파")]
+    public int SkillTurn = 0;
 
     [Header("UI")]
     public Text LvNameText;
@@ -36,11 +36,11 @@ public  class Enemy : MonoBehaviour
     private void Update()
     {
         // UI
-        LvNameText.text = "Lv. " + EnemyLv + " "+ Name;
+        LvNameText.text = "Lv. " + EnemyLv + " " + Name;
         EnemyHpBar.fillAmount = EnemyHp / EnemyMaxHp;
         EnemyHpText.text = EnemyHp + "/" + EnemyMaxHp;
         EnemyAttackText.text = EnemyAttack.ToString();
-        EnemyDefText.text = EnemyDef.ToString();
+        EnemyDefText.text = GetDef().ToString();
         EnemySpeedText.text = EnemySpeed.ToString();
     }
 
@@ -50,34 +50,29 @@ public  class Enemy : MonoBehaviour
     }
 
     // 몬스터 공격
-    public virtual void Attack(Player pl)
+    public virtual void Attack()
     {
-        if (IsDie)
-        {
-            return;
-        }
-
-        pl.Damage(EnemyAttack);
-
         EnemyAnimator.Play("attack");
+        GameManager.instance.player.Damage(EnemyAttack);
     }
 
 
     // 몬스터가 피해 받기
     public void Damage(float damage)
     {
-        if (IsDie)
-        {
-            return;
-        }
-
         // 방어력만큼 피해 감소
         float damagePercent = 1f - (GetDef() / 100f);
-
         // 최소 10% 피해
         damagePercent = Mathf.Max(damagePercent, 0.1f);
 
         damage *= damagePercent;
+
+        if (IsDefing)
+        {
+            float defPercent = 1f - ((50f + EnemyLv * 3f) / 100f);
+
+            damage *= defPercent;
+        }
 
         EnemyHp -= damage;
 
@@ -87,6 +82,8 @@ public  class Enemy : MonoBehaviour
             EnemyHp = 0;
             IsDie = true;
 
+            GameManager.instance.player.SetExp(EnemyExp); // 경험치
+            GameManager.instance.player.Money += EnemyExp / 2; // 돈
             EnemyAnimator.Play("die");
             Destroy(gameObject, 3f);
         }
@@ -96,10 +93,28 @@ public  class Enemy : MonoBehaviour
         }
     }
 
+    public void DefenseCheck()
+    {
+        int random = Random.Range(0, 100);
+
+        if (random < 10)
+        {
+            IsDefing = true;
+            DefImage.gameObject.SetActive(true);
+
+            GameManager.instance.UIManager.BigMSG(Name + " 방어!");
+        }
+        else
+        {
+            IsDefing = false;
+            DefImage.gameObject.SetActive(false);
+        }
+    }
+
     public float GetDef()
     {
         // 약점격파
-        if (SkillTurn[0] > 0)
+        if (SkillTurn > 0)
         {
             return EnemyDef * 0.7f;
         }
@@ -109,12 +124,9 @@ public  class Enemy : MonoBehaviour
 
     public void TurnDown()
     {
-        for (int i = 0; i < SkillTurn.Length; i++)
+        if (SkillTurn > 0)
         {
-            if (SkillTurn[i] > 0)
-            {
-                SkillTurn[i]--;
-            }
+            SkillTurn--;
         }
     }
 }

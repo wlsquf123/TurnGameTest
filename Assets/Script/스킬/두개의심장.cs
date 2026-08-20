@@ -4,15 +4,19 @@ public class 두개의심장 : Skill
 {
     public override void Select()
     {
-        if (player.SkillTurn[8] > 0)
+        if (Turn > 0)
         {
-            Debug.Log("두개의 심장 쿨타임이" + player.SkillTurn[8] + "남았습니다");
+            GameManager.instance.UIManager.SmallMSG("두개의 심장 쿨타임이 " + Turn + "턴 남았습니다");
+
             return;
         }
 
-        GameManager.instance.BattleManager.ExtraAction = true;
-        player.SkillTurn[8] = 11;
 
-        Debug.Log("두개의 심장 사용!");
+        GameManager.instance.BattleManager.ExtraAction = true;
+
+
+        Turn = 11;
+
+        GameManager.instance.UIManager.BigMSG("두개의 심장 사용!");
     }
 }
