@@ -29,6 +29,19 @@ public class Skill : MonoBehaviour
 
         float damage = player.attack * damagePercent;
 
+        // 지식의 영약
+        if (!(this is 일반))
+        {
+            foreach (Item item in FindObjectsByType<Item>(FindObjectsSortMode.None))
+            {
+                if (item.ItemType == 3 && item.Turn > 0)
+                {
+                    damage *= 1.3f;
+                    break;
+                }
+            }
+        }
+
         int random = Random.Range(0, 100);
 
         if (random < player.crit)

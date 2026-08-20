@@ -3,8 +3,6 @@ using UnityEngine;
 public class StoreItem : MonoBehaviour
 {
     public int Price;
-
-    // 구매하면 들어갈 인벤 아이템
     public Item Item;
 
     public void Buy()

@@ -177,6 +177,10 @@ public class BattleManager : MonoBehaviour
         {
             skill.TurnDown();
         }
+        foreach (Item item in FindObjectsByType<Item>(FindObjectsSortMode.None))
+        {
+            item.TurnDown();
+        }
     }
 
 
