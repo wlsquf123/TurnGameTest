@@ -12,6 +12,8 @@ public class BattleManager : MonoBehaviour
     public bool IsTarget = false;
     public bool ExtraAction = false;
 
+    public int StopTurn = 0;
+
     // 전투 준비
     public void StartBattle()
     {
@@ -26,7 +28,7 @@ public class BattleManager : MonoBehaviour
         
         foreach (Skill sk in FindObjectsByType<Skill>(FindObjectsSortMode.None))
         {
-            sk.Turn = 0;
+            sk.ResetSkill();
         }
         foreach (var item in FindObjectsByType<Item>(FindObjectsSortMode.None))
         {
@@ -135,6 +137,15 @@ public class BattleManager : MonoBehaviour
     // 플레이어 턴
     private IEnumerator PlayerTurn()
     {
+        if (StopTurn > 0)
+        {
+            StopTurn--;
+
+            GameManager.instance.UIManager.BigMSG("행동 불가!");
+            yield return new WaitForSeconds(1f);
+            yield break;
+        }
+
         IsPlayerTurn = true;
         IsTarget = false;
 
@@ -229,6 +240,7 @@ public class BattleManager : MonoBehaviour
         foreach (Enemy enemy in Enemys)
         {
             enemy.Damage(999999);
+
         }
     }
 }

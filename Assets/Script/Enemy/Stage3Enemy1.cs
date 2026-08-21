@@ -6,7 +6,7 @@ public class Stage3Enemy1 : Enemy
     public override float EnemyAttack => 13f + (EnemyLv * 2f);
     public override float EnemyDef => 25f;
     public override float EnemySpeed => 13f;
-    public override int EnemyExp => 80;
+    public override int EnemyExp => 80 * EnemyLv;
 
     private void Start()
     {

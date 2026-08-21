@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
     public int bag = 6;
 
     public bool IsDid = false;
+    public bool isDamage = false;
 
     [Header("µ∑&≈∏¿Ã∏”")]
     public int Money = 0;
@@ -85,11 +86,7 @@ public class Player : MonoBehaviour
         if (MaxExp <= Exp)
         {
             Exp -= MaxExp;
-            Lv++;
-            MaxExp += 100;
-            MaxHp += 20;
-            MaxMp += 10;
-            attack += 10;
+            ChatExp();
         }
         if (Lv >= 2)
         {
@@ -125,8 +122,10 @@ public class Player : MonoBehaviour
         damagePercent = Mathf.Max(damagePercent, 0.1f);
 
         damage *= damagePercent;
-        PlayerAnimator.Play("Damage");
 
+        if (isDamage) return;
+
+        PlayerAnimator.Play("Damage");
         Hp -= damage;
 
         if (Hp <= 0)
@@ -152,5 +151,14 @@ public class Player : MonoBehaviour
     public void SetExp(int add)
     {
         Exp += add;
+    }
+
+    public void ChatExp()
+    {
+        Lv++;
+        MaxExp += 100;
+        MaxHp += 20;
+        MaxMp += 10;
+        attack += 10;
     }
 }
