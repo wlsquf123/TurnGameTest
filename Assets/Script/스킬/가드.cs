@@ -4,21 +4,18 @@ public class 가드 : Skill
 {
     public float AddDef = 0;
 
-
     public override void Select()
     {
         if (Turn == 0)
         {
-            AddDef = player.Def * 0.3f;
-
-            player.Def += AddDef;
+            AddDef = GameManager.instance.player.Def * 0.3f;
+            GameManager.instance.player.Def += AddDef;
         }
 
         Turn = 2;
 
         GameManager.instance.BattleManager.EndPlayerTurn();
     }
-
 
     public override void TurnDown()
     {
@@ -28,8 +25,7 @@ public class 가드 : Skill
 
             if (Turn == 0)
             {
-                player.Def -= AddDef;
-
+                GameManager.instance.player.Def -= AddDef;
                 AddDef = 0;
             }
         }
@@ -39,7 +35,7 @@ public class 가드 : Skill
     {
         if (Turn > 0)
         {
-            player.Def -= AddDef;
+            GameManager.instance.player.Def -= AddDef;
         }
 
         AddDef = 0;

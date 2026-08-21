@@ -17,7 +17,7 @@ public class 최후의일격 : Skill
 
     public override void Use(Enemy enemy)
     {
-        if (player.Hp <= player.MaxHp * 0.3f)
+        if (GameManager.instance.player.Hp <= GameManager.instance.player.MaxHp * 0.3f)
         {
             enemy.Damage(GetDamage(3f));
         }

@@ -20,14 +20,4 @@ public class SkillBook : MonoBehaviour
 
         GameManager.instance.UIManager.BigMSG( name + " 스킬 획득!");
     }
-
-    // 새 게임 초기화
-    public void ResetBook()
-    {
-        // 상점 스킬북 다시 등장
-        gameObject.SetActive(true);
-
-        // 배운 스킬 다시 잠금
-        SkillButton.SetActive(false);
-    }
 }

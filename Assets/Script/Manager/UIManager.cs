@@ -9,6 +9,8 @@ public class UIManager : MonoBehaviour
     public Animator SkillAnimator;
 
     public GameObject ½Â¸®Ã¢;
+    public GameObject StoreObj;
+    public GameObject MapObj;
 
     public Text BigMsgText;
     public Text SmallMsgText;
@@ -23,5 +25,12 @@ public class UIManager : MonoBehaviour
     {
         SmallMsgText.text = msg;
         SmallMsgAnimator.Play("EnterSmallMSG", 0, 0f);
+    }
+
+    public void WinNextButton()
+    {
+        ½Â¸®Ã¢.SetActive(false);
+        StoreObj.SetActive(true);
+        GameManager.instance.StoreManager.IsHp = true;
     }
 }

@@ -9,18 +9,15 @@ public class 공방일체 : Skill
         if (Turn > 0)
         {
             Debug.Log("공방일체 쿨타임이 " + Turn + "턴 남았습니다");
-
             return;
         }
 
         base.Select();
     }
 
-
     public override void Use(Enemy enemy)
     {
         float Damage = GetDamage(1f);
-
 
         foreach (Enemy target in GameManager.instance.BattleManager.Enemys)
         {
@@ -30,8 +27,8 @@ public class 공방일체 : Skill
             }
         }
 
-        AddDef = player.Def * 0.3f;
-        player.Def += AddDef;
+        AddDef = GameManager.instance.player.Def * 0.3f;
+        GameManager.instance.player.Def += AddDef;
 
         Turn = 4;
     }
@@ -44,23 +41,20 @@ public class 공방일체 : Skill
 
             if (Turn == 0)
             {
-                player.Def -= AddDef;
-
+                GameManager.instance.player.Def -= AddDef;
                 AddDef = 0;
             }
         }
     }
 
-
     public override void ResetSkill()
     {
         if (Turn > 0)
         {
-            player.Def -= AddDef;
+            GameManager.instance.player.Def -= AddDef;
         }
 
         AddDef = 0;
-
         Turn = 0;
     }
 }

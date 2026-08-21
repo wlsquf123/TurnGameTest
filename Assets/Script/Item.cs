@@ -50,30 +50,16 @@ public class Item : MonoBehaviour
 
             // 힘의 영약
             case 2:
-                if (Turn > 0)
-                {
-                    GameManager.instance.UIManager.BigMSG("이미 힘의 영약 효과 적용중!");
-                    return;
-                }
-
                 player.attack *= 1.3f;
-
                 Turn = 5;
-
                 GameManager.instance.UIManager.BigMSG("힘의 영약 사용!");
                 break;
 
 
             // 지식의 영약
             case 3:
-                if (Turn > 0)
-                {
-                    GameManager.instance.UIManager.BigMSG("이미 지식의 영약 효과 적용중!");
-                    return;
-                }
-
                 Turn = 5;
-
+                GameManager.instance.player.attack *= 1.3f;
                 GameManager.instance.UIManager.BigMSG("지식의 영약 사용!");
                 break;
 
@@ -81,7 +67,7 @@ public class Item : MonoBehaviour
             // 회피의 물약
             case 4:
                 player.eva *= 2f;
-
+                Turn = 1;
                 GameManager.instance.UIManager.BigMSG("회피의 물약 사용!");
                 break;
         }
@@ -112,15 +98,46 @@ public class Item : MonoBehaviour
                     case 2:
                         player.attack /= 1.3f;
 
-                        GameManager.instance.UIManager.BigMSG("힘의 영약 효과 종료!");
+                        GameManager.instance.UIManager.SmallMSG("힘의 영약 효과 종료!");
                         break;
 
                     // 지식의 영약 종료
                     case 3:
-                        GameManager.instance.UIManager.BigMSG("지식의 영약 효과 종료!");
+                        player.attack /= 1.3f;
+                        GameManager.instance.UIManager.SmallMSG("지식의 영약 효과 종료!");
+                        break;
+
+                    case 4:
+                        player.eva /= 2f;
+                        GameManager.instance.UIManager.SmallMSG("회피의 물약 효과 종료!");
                         break;
                 }
             }
         }
+    }
+
+    public void ResetItem()
+    {
+        Player player = GameManager.instance.player;
+
+        if (Turn > 0)
+        {
+            switch (ItemType)
+            {
+                case 2:
+                    player.attack /= 1.3f;
+                    break;
+
+                case 3:
+                    player.attack /= 1.3f;
+                    break;
+
+                case 4:
+                    player.eva /= 2f;
+                    break;
+            }
+        }
+
+        Turn = 0;
     }
 }

@@ -4,7 +4,7 @@ public class 기사회생 : Skill
 {
     public override void Use(Enemy enemy)
     {
-        float Hpr = 1f - (player.Hp / player.MaxHp);
+        float Hpr = 1f - (GameManager.instance.player.Hp / GameManager.instance.player.MaxHp);
 
         float DamagePercent = 1.5f + Hpr;
 

@@ -26,7 +26,11 @@ public class BattleManager : MonoBehaviour
         
         foreach (Skill sk in FindObjectsByType<Skill>(FindObjectsSortMode.None))
         {
-            sk.ResetSkill();
+            sk.Turn = 0;
+        }
+        foreach (var item in FindObjectsByType<Item>(FindObjectsSortMode.None))
+        {
+            item.ResetItem();
         }
 
         StartCoroutine(FindEnemy());
@@ -51,7 +55,6 @@ public class BattleManager : MonoBehaviour
         StartCoroutine(BattleRoutine());
     }
 
-
     // 전투 전체 진행
     private IEnumerator BattleRoutine()
     {
@@ -59,7 +62,6 @@ public class BattleManager : MonoBehaviour
         {
             // 죽은 몬스터 리스트에서 제거
             Enemys.RemoveAll(enemy => enemy == null || enemy.IsDie);
-
 
             // 몬스터 전멸
             if (Enemys.Count == 0)
@@ -228,6 +230,5 @@ public class BattleManager : MonoBehaviour
         {
             enemy.Damage(999999);
         }
-
     }
 }

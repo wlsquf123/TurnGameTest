@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Skill : MonoBehaviour
 {
-    public Player player;
     public string SkillName;
     public int MpCost;
 
@@ -12,7 +11,7 @@ public class Skill : MonoBehaviour
     // 일반적인 타겟 선택 스킬
     public virtual void Select()
     {
-        if (!player.SetMP(MpCost))
+        if (!GameManager.instance.player.SetMP(MpCost))
         {
             Debug.Log("MP가 부족합니다!");
             return;
@@ -25,9 +24,9 @@ public class Skill : MonoBehaviour
     // 공격 데미지
     public float GetDamage(float damagePercent)
     {
-        player.PlayerAnimator.Play("Attack");
+        GameManager.instance.player.PlayerAnimator.Play("Attack");
 
-        float damage = player.attack * damagePercent;
+        float damage = GameManager.instance.player.attack * damagePercent;
 
         // 지식의 영약
         if (!(this is 일반))
@@ -44,7 +43,7 @@ public class Skill : MonoBehaviour
 
         int random = Random.Range(0, 100);
 
-        if (random < player.crit)
+        if (random < GameManager.instance.player.crit)
         {
             damage *= 2;
 

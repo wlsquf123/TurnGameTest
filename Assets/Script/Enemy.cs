@@ -38,7 +38,7 @@ public class Enemy : MonoBehaviour
         // UI
         LvNameText.text = "Lv. " + EnemyLv + " " + Name;
         EnemyHpBar.fillAmount = EnemyHp / EnemyMaxHp;
-        EnemyHpText.text = EnemyHp + "/" + EnemyMaxHp;
+        EnemyHpText.text = EnemyHp.ToString("F1") + "/" + EnemyMaxHp;
         EnemyAttackText.text = EnemyAttack.ToString();
         EnemyDefText.text = GetDef().ToString();
         EnemySpeedText.text = EnemySpeed.ToString();

@@ -11,7 +11,7 @@ public class 명상 : Skill
             return;
         }
 
-
+        var player = GameManager.instance.player;
         player.Hp += player.MaxHp * 0.3f;
         player.Hp = Mathf.Clamp(player.Hp, 0, player.MaxHp);
 

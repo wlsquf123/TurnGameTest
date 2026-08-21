@@ -69,7 +69,7 @@ public class Player : MonoBehaviour
         ExpImage.fillAmount = Exp / MaxExp;
         HpImage.fillAmount = Hp / MaxHp;
         MpImage.fillAmount = Mp / MaxMp;
-        HpText.text = Hp + " / " + MaxHp;
+        HpText.text = Hp.ToString("F1") + " / " + MaxHp;
         MpText.text = Mp + " / " + MaxMp;
         ExpText.text = Exp + " / " + MaxExp;
         attackText.text = "°ø°Ý·Â: " + attack;
@@ -87,8 +87,8 @@ public class Player : MonoBehaviour
             Exp -= MaxExp;
             Lv++;
             MaxExp += 100;
-            Hp += 20;
-            Mp += 10;
+            MaxHp += 20;
+            MaxMp += 10;
             attack += 10;
         }
         if (Lv >= 2)
