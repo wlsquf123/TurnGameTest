@@ -10,6 +10,7 @@ public class 필살기 : Skill
 
             return;
         }
+        base.Select(); 
 
         foreach (Enemy enemy in GameManager.instance.BattleManager.Enemys)
         {

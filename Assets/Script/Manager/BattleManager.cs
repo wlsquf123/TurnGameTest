@@ -25,14 +25,13 @@ public class BattleManager : MonoBehaviour
         Enemys.Clear();
 
         // 전투 시작 시 스킬 턴들 초기화
-        
         foreach (Skill sk in FindObjectsByType<Skill>(FindObjectsSortMode.None))
         {
             sk.ResetSkill();
         }
-        foreach (var item in FindObjectsByType<Item>(FindObjectsSortMode.None))
+        foreach (var it in FindObjectsByType<Item>(FindObjectsSortMode.None))
         {
-            item.ResetItem();
+            it.ResetItem();
         }
 
         StartCoroutine(FindEnemy());
@@ -205,9 +204,11 @@ public class BattleManager : MonoBehaviour
             yield break;
         }
 
+        yield return new WaitForSeconds(1f);
+
         GameManager.instance.UIManager.BigMSG(enemy.Name + "의 턴");
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
 
         enemy.Attack();
 
@@ -240,7 +241,6 @@ public class BattleManager : MonoBehaviour
         foreach (Enemy enemy in Enemys)
         {
             enemy.Damage(999999);
-
         }
     }
 }

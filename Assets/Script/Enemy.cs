@@ -62,6 +62,7 @@ public class Enemy : MonoBehaviour
     {
         // 방어력만큼 피해 감소
         float damagePercent = 1f - (GetDef() / 100f);
+
         // 최소 10% 피해
         damagePercent = Mathf.Max(damagePercent, 0.1f);
 
@@ -79,17 +80,17 @@ public class Enemy : MonoBehaviour
 
         if (EnemyHp <= 0)
         {
-            EnemyHp = 0;
             IsDie = true;
+            EnemyHp = 0f;
 
             GameManager.instance.player.SetExp(EnemyExp); // 경험치
             GameManager.instance.player.Money += EnemyExp / 2; // 돈
-            EnemyAnimator.Play("die");
-            Destroy(gameObject, 3f);
+            EnemyAnimator.Play("die"); // 애니메이션 죽음
+            Destroy(gameObject, 2f); // 오브젝트 제거
         }
         else
         {
-            EnemyAnimator.Play("damage");
+            EnemyAnimator.Play("damage"); // 애니메이션 데미지
         }
     }
 
@@ -97,12 +98,12 @@ public class Enemy : MonoBehaviour
     {
         int random = Random.Range(0, 100);
 
-        if (random < 10)
+        if (random < 10) // 10% 확률로 방어막 생성
         {
             IsDefing = true;
             DefImage.gameObject.SetActive(true);
 
-            GameManager.instance.UIManager.BigMSG(Name + " 방어!");
+            GameManager.instance.UIManager.BigMSG(Name + " 방어막 생성!");
         }
         else
         {
